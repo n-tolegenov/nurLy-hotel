@@ -3,6 +3,7 @@ package com.dev.nurlyhotel.service;
 import com.dev.nurlyhotel.model.Room;
 import com.dev.nurlyhotel.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+@Service
 @RequiredArgsConstructor
 public class RoomService implements IRoomService {
 
