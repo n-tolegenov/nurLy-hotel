@@ -48,6 +48,10 @@ public class RoomService implements IRoomService {
     public byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException {
         Optional<Room> theRoom = roomRepository.findById(roomId);
         if(theRoom.isEmpty()){
+            /*
+                Собственные исключения могут быть созданы для отображения конкретных ошибок или ситуаций,
+                которые могут возникнуть в приложении.
+             */
             throw new ResourceNotFoundException("Sorry, room not found");
         }
         Blob photoBlob = theRoom.get().getPhoto();
@@ -55,6 +59,14 @@ public class RoomService implements IRoomService {
             return photoBlob.getBytes(1, (int) photoBlob.length());
         }
         return null;
+    }
+
+    @Override
+    public void deleteRoom(Long roomId) {
+        Optional<Room> theRoom = roomRepository.findById(roomId);
+        if(theRoom.isPresent()){
+            roomRepository.deleteById(roomId);
+        }
     }
 
 
