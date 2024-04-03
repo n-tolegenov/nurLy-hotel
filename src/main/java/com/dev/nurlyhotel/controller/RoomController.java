@@ -3,6 +3,7 @@ package com.dev.nurlyhotel.controller;
 import com.dev.nurlyhotel.dto.BookingDTO;
 import com.dev.nurlyhotel.dto.RoomDTO;
 import com.dev.nurlyhotel.exception.PhotoRetrievealException;
+import com.dev.nurlyhotel.exception.ResourceNotFoundException;
 import com.dev.nurlyhotel.model.BookedRoom;
 import com.dev.nurlyhotel.model.Room;
 import com.dev.nurlyhotel.service.BookingService;
@@ -17,10 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 /*
@@ -89,6 +92,15 @@ public class RoomController {
         theRoom.setPhoto(photoBlob);
         RoomDTO roomDTO = getRoomDTO(theRoom);
         return ResponseEntity.ok(roomDTO);
+    }
+
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<Optional<RoomDTO>> getRoomById(@PathVariable Long roomId) {
+        Optional<Room> theRoom = roomService.getRoomById(roomId);
+        return theRoom.map(room -> {
+            RoomDTO roomDTO = getRoomDTO(room);
+            return ResponseEntity.ok(Optional.of(roomDTO));
+        }).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
     }
 
     private RoomDTO getRoomDTO(Room room) {
