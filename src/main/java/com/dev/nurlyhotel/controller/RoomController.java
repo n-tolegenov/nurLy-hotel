@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// @CrossOrigin - Разрешает обработку межсайтовых запросов
+@CrossOrigin("http://localhost:5173")
 @RestController
 /*
    @RequiredArgsConstructor
