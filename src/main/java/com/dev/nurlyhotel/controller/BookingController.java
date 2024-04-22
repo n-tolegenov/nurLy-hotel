@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // @CrossOrigin позволяет выполнять запросы между разными источниками
-@CrossOrigin("http://localhost:5173")
+//@CrossOrigin("http://localhost:5173")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/bookings")
