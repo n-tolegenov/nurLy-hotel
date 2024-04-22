@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 // @CrossOrigin - Разрешает обработку межсайтовых запросов
-@CrossOrigin("http://localhost:5173")
+//@CrossOrigin("http://localhost:5173")
 @RestController
 /*
    @RequiredArgsConstructor
@@ -45,6 +46,7 @@ public class RoomController {
     Это позволяет включать в ответ дополнительную информацию о состоянии, типе контента, дате, безопасности и других аспектах HTTP-протокола.
     */
     @PostMapping("/add/new-room")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO> addNewRoom(
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("roomType") String roomType,
@@ -77,12 +79,14 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/room/{roomId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteRoom(@PathVariable Long roomId){
         roomService.deleteRoom(roomId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/update/{roomId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<RoomDTO> updateRoom(@PathVariable Long roomId,
                                               @RequestParam(required = false) String roomType,
                                               @RequestParam(required = false) BigDecimal roomPrice,
